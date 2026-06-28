@@ -16,6 +16,7 @@ import re
 import json
 import time
 import sys
+import socket
 from datetime import datetime, timezone, timedelta
 import feedparser
 import requests
@@ -30,6 +31,9 @@ from supabase_client import (
     insert_news,
     normalize_title,
 )
+
+# Socket timeout ayarı (Feed taranırken askıda kalmayı önler)
+socket.setdefaulttimeout(10)
 
 # Windows Unicode çıktı ayarı
 if sys.platform.startswith("win"):
@@ -55,7 +59,7 @@ GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
 RSS_SOURCES = [
     # Resmi Kaynaklar
     {"name": "Rockstar Games", "url": "https://www.rockstargames.com/newswire.xml", "category": "official"},
-    {"name": "RockstarGames (Twitter)", "url": "https://nitter.privacydev.net/RockstarGames/rss", "category": "official"},
+    {"name": "RockstarGames (Twitter)", "url": "https://nitter.perennialte.ch/RockstarGames/rss", "category": "official"},
     
     # Saygın Oyun Basını
     {"name": "IGN", "url": "https://feeds.feedburner.com/ign/news", "category": "press"},
@@ -68,12 +72,37 @@ RSS_SOURCES = [
     {"name": "Merlin'in Kazanı", "url": "https://www.merlininkazani.com/rss", "category": "press"},
     
     # Insider Twitter Hesapları (Nitter RSS)
-    {"name": "TezFunz2", "url": "https://nitter.privacydev.net/TezFunz2/rss", "category": "insider"},
-    {"name": "GTABase", "url": "https://nitter.privacydev.net/GTABase/rss", "category": "insider"},
-    {"name": "RockstarIntel", "url": "https://nitter.privacydev.net/RockstarIntel/rss", "category": "insider"},
-    {"name": "Yan2295", "url": "https://nitter.privacydev.net/Yan2295/rss", "category": "insider"},
-    {"name": "ZoeTheDragon", "url": "https://nitter.privacydev.net/ZoeTheDragon/rss", "category": "insider"},
-    {"name": "VideoTech_", "url": "https://nitter.privacydev.net/VideoTech_/rss", "category": "insider"},
+    {"name": "TezFunz2", "url": "https://nitter.perennialte.ch/TezFunz2/rss", "category": "insider"},
+    {"name": "GTABase", "url": "https://nitter.perennialte.ch/GTABase/rss", "category": "insider"},
+    {"name": "RockstarIntel", "url": "https://nitter.perennialte.ch/RockstarIntel/rss", "category": "insider"},
+    {"name": "Yan2295", "url": "https://nitter.perennialte.ch/Yan2295/rss", "category": "insider"},
+    {"name": "ZoeTheDragon", "url": "https://nitter.perennialte.ch/ZoeTheDragon/rss", "category": "insider"},
+    {"name": "VideoTech_", "url": "https://nitter.perennialte.ch/VideoTech_/rss", "category": "insider"},
+
+    # Yeni Eklenen Kaynaklar (Kullanıcı Talebi)
+    # GTASeries
+    {"name": "GTASeries (YouTube)", "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCrTNhL_yO3tPTdQ5XgmmWjA", "category": "insider"},
+    {"name": "GTASeries (Twitter)", "url": "https://nitter.perennialte.ch/GTASeries/rss", "category": "insider"},
+    
+    # SomosXbox
+    {"name": "SomosXbox", "url": "https://www.somosxbox.com/feed/", "category": "press"},
+    {"name": "SomosXbox (Twitter)", "url": "https://nitter.perennialte.ch/SomosXbox/rss", "category": "press"},
+    
+    # AlfaBetaJuega
+    {"name": "AlfaBetaJuega", "url": "https://www.alfabetajuega.com/feed", "category": "press"},
+    {"name": "AlfaBetaJuega (Twitter)", "url": "https://nitter.perennialte.ch/AlfaBetaJuega/rss", "category": "press"},
+    
+    # Viciados
+    {"name": "Viciados", "url": "https://viciados.net/feed/", "category": "press"},
+    {"name": "PortalViciados (Twitter)", "url": "https://nitter.perennialte.ch/PortalViciados/rss", "category": "press"},
+    
+    # ComboInfinito
+    {"name": "ComboInfinito", "url": "https://www.comboinfinito.com.br/principal/feed/", "category": "press"},
+    {"name": "ComboInfinito (Twitter)", "url": "https://nitter.perennialte.ch/comboinfinito/rss", "category": "press"},
+    
+    # JovemNerd
+    {"name": "JovemNerd", "url": "https://jovemnerd.com.br/feed-completo", "category": "press"},
+    {"name": "JovemNerd (Twitter)", "url": "https://nitter.perennialte.ch/jovemnerd/rss", "category": "press"},
 ]
 
 # Anahtar Kelimeler (GTA 6, GTA VI, Rockstar, vb.)

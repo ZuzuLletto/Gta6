@@ -5,7 +5,35 @@
    ============================================= */
 
 :root {
-  /* Core Colors */
+  /* Core Colors (Light Mode) */
+  --background: #fbfbfb;
+  --foreground: #111111;
+
+  /* Vice City Neon Palette (Slightly darker for contrast on light background) */
+  --neon-pink: #d600d6;
+  --neon-pink-soft: #ed21ed;
+  --neon-cyan: #00b386;
+  --neon-blue: #0099cc;
+  --neon-purple: #8b5cf6;
+
+  /* Surface Colors */
+  --card-bg: rgba(0, 0, 0, 0.02);
+  --card-hover-bg: rgba(0, 0, 0, 0.04);
+  --card-border: rgba(0, 0, 0, 0.07);
+  --card-hover-border: rgba(214, 0, 214, 0.35);
+
+  /* Background Grid & Glow Colors */
+  --grid-color: rgba(214, 0, 214, 0.012);
+  --glow-color: rgba(214, 0, 214, 0.025);
+
+  /* Text Colors */
+  --text-primary: #111111;
+  --text-secondary: #4a4a4a;
+  --text-muted: #7c7c7c;
+}
+
+.dark {
+  /* Core Colors (Dark Mode) */
   --background: #0a0a0a;
   --foreground: #e0e0e0;
 
@@ -18,8 +46,13 @@
 
   /* Surface Colors */
   --card-bg: rgba(255, 255, 255, 0.03);
+  --card-hover-bg: rgba(255, 255, 255, 0.05);
   --card-border: rgba(255, 255, 255, 0.06);
   --card-hover-border: rgba(255, 0, 255, 0.3);
+
+  /* Background Grid & Glow Colors */
+  --grid-color: rgba(255, 0, 255, 0.015);
+  --glow-color: rgba(255, 0, 255, 0.06);
 
   /* Text Colors */
   --text-primary: #f5f5f5;
@@ -110,8 +143,8 @@ body::before {
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255, 0, 255, 0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 0, 255, 0.015) 1px, transparent 1px);
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
   background-size: 60px 60px;
   pointer-events: none;
   z-index: 0;
@@ -126,7 +159,7 @@ body::after {
   transform: translateX(-50%);
   width: 800px;
   height: 600px;
-  background: radial-gradient(ellipse, rgba(255, 0, 255, 0.06) 0%, transparent 70%);
+  background: radial-gradient(ellipse, var(--glow-color) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -150,17 +183,17 @@ body::after {
 
 /* Glassmorphism card */
 .glass-card {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--card-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--card-border);
   border-radius: 16px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-card:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 0, 255, 0.3);
+  background: var(--card-hover-bg);
+  border-color: var(--card-hover-border);
   box-shadow:
     0 0 20px rgba(255, 0, 255, 0.08),
     0 8px 32px rgba(0, 0, 0, 0.3);

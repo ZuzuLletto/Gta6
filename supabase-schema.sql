@@ -2,6 +2,11 @@
 -- ZUZU RP NEWS — Gelişmiş Supabase Şeması
 -- =============================================
 -- Bu SQL'i Supabase Dashboard > SQL Editor'de çalıştırın.
+-- UYARI: Eğer veritabanınızda eski tablolar varsa, temiz kurulum için aşağıdaki satırları en başta çalıştırabilirsiniz:
+-- DROP TABLE IF EXISTS comment_likes CASCADE;
+-- DROP TABLE IF EXISTS comments CASCADE;
+-- DROP TABLE IF EXISTS news_likes CASCADE;
+-- DROP TABLE IF EXISTS news CASCADE;
 
 -- 0. PGVECTOR UZANTISINI AKTİF ET
 CREATE EXTENSION IF NOT EXISTS vector;

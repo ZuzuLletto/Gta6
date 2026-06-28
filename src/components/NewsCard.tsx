@@ -34,7 +34,7 @@ export default function NewsCard({
             alt={title}
             className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
         </div>
       )}
 
