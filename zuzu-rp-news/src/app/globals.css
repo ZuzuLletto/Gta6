@@ -1,0 +1,218 @@
+@import "tailwindcss";
+
+/* =============================================
+   ZUZU RP NEWS — Vice City Neon Theme
+   ============================================= */
+
+:root {
+  /* Core Colors */
+  --background: #0a0a0a;
+  --foreground: #e0e0e0;
+
+  /* Vice City Neon Palette */
+  --neon-pink: #ff00ff;
+  --neon-pink-soft: #ff44ff;
+  --neon-cyan: #00ffcc;
+  --neon-blue: #00d4ff;
+  --neon-purple: #a855f7;
+
+  /* Surface Colors */
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --card-border: rgba(255, 255, 255, 0.06);
+  --card-hover-border: rgba(255, 0, 255, 0.3);
+
+  /* Text Colors */
+  --text-primary: #f5f5f5;
+  --text-secondary: #a0a0a0;
+  --text-muted: #666666;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-neon-pink: var(--neon-pink);
+  --color-neon-pink-soft: var(--neon-pink-soft);
+  --color-neon-cyan: var(--neon-cyan);
+  --color-neon-blue: var(--neon-blue);
+  --color-neon-purple: var(--neon-purple);
+  --color-card-bg: var(--card-bg);
+  --color-card-border: var(--card-border);
+  --color-card-hover-border: var(--card-hover-border);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --font-sans: var(--font-outfit);
+
+  /* Custom animations */
+  --animate-pulse-glow: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-shimmer: shimmer 2s linear infinite;
+}
+
+/* =============================================
+   ANIMATIONS
+   ============================================= */
+
+/* Discord Button Pulse Glow */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow:
+      0 0 8px rgba(255, 0, 255, 0.4),
+      0 0 20px rgba(255, 0, 255, 0.2),
+      0 0 40px rgba(255, 0, 255, 0.1);
+  }
+  50% {
+    box-shadow:
+      0 0 12px rgba(255, 0, 255, 0.6),
+      0 0 30px rgba(255, 0, 255, 0.4),
+      0 0 60px rgba(255, 0, 255, 0.2);
+  }
+}
+
+/* Floating animation for decorative elements */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Shimmer effect for loading states */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Card entrance animation */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =============================================
+   BASE STYLES
+   ============================================= */
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Outfit', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Subtle grid background pattern */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 0, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 0, 255, 0.015) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Radial glow at top */
+body::after {
+  content: '';
+  position: fixed;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 600px;
+  background: radial-gradient(ellipse, rgba(255, 0, 255, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* =============================================
+   UTILITY CLASSES
+   ============================================= */
+
+/* Neon text glow */
+.neon-text {
+  text-shadow:
+    0 0 7px rgba(255, 0, 255, 0.5),
+    0 0 20px rgba(255, 0, 255, 0.3);
+}
+
+.neon-text-cyan {
+  text-shadow:
+    0 0 7px rgba(0, 255, 204, 0.5),
+    0 0 20px rgba(0, 255, 204, 0.3);
+}
+
+/* Glassmorphism card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 0, 255, 0.3);
+  box-shadow:
+    0 0 20px rgba(255, 0, 255, 0.08),
+    0 8px 32px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Source badge */
+.source-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 9999px;
+  background: rgba(255, 0, 255, 0.08);
+  border: 1px solid rgba(255, 0, 255, 0.2);
+  color: var(--neon-pink-soft);
+  transition: all 0.2s ease;
+}
+
+.source-badge:hover {
+  background: rgba(255, 0, 255, 0.15);
+  border-color: rgba(255, 0, 255, 0.4);
+}
+
+/* Animate cards on scroll */
+.card-animate {
+  animation: fade-in-up 0.6s ease-out both;
+}
+
+.card-animate:nth-child(1) { animation-delay: 0.1s; }
+.card-animate:nth-child(2) { animation-delay: 0.2s; }
+.card-animate:nth-child(3) { animation-delay: 0.3s; }
+.card-animate:nth-child(4) { animation-delay: 0.4s; }
+.card-animate:nth-child(5) { animation-delay: 0.5s; }
+.card-animate:nth-child(6) { animation-delay: 0.6s; }
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 0, 255, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 0, 255, 0.5);
+}
